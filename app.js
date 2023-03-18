@@ -1,13 +1,17 @@
-const gameStatus = document.querySelector('.game__status-turn')
-const cellsElement = document.querySelectorAll('.cell')
+const cellItem = document.querySelectorAll('.cell')
 const resetBtn = document.querySelector('.game__button-btn')
+const statusGame = document.querySelector('.game__status-turn')
 
-let player = 'O'
-let cells = []
-let playing = true
-gameStatus.innerText = `${player}`
+playing = true
+player = 'O'
+cells = []
+statusGame.innerText = player
 
-cellsElement.forEach((item, index) => {
+cellItem.forEach((item, index) => {
+    item.addEventListener('click', () => {
+        // console.log(item);
+        playerHandler(index)
+    })
     cells[index] = {
         element: item,
         value: null,
@@ -16,34 +20,31 @@ cellsElement.forEach((item, index) => {
             this.value = null
         }
     }
-    item.addEventListener('click', (e) => { cellHandler(e, index) })
 })
 
-function cellHandler(event, index) {
-
+function playerHandler(index) {
     if (playing && cells[index].value == null) {
         cells[index].value = player
         cells[index].element.classList.add(player)
         togglePlayer()
         checkWinner()
     }
-
 }
 
 function togglePlayer() {
-    player = player == 'O' ? 'X' : 'O'
-    gameStatus.innerText = `${player}`
+    player = player == 'O' ? 'X' : 'O';
+    statusGame.innerText = player
 }
 
 function checkWinner() {
-    let winner = null
+    let winner = false
     if (cells[0].value !== null && cells[0].value == cells[1].value
         && cells[0].value == cells[2].value) winner = cells[0].value
     else if (cells[3].value !== null && cells[3].value == cells[4].value
         && cells[3].value == cells[5].value) winner = cells[3].value
     else if (cells[6].value !== null && cells[6].value == cells[7].value
         && cells[6].value == cells[8].value) winner = cells[6].value
-    else if (cells[0].value !== null && cells[0].value == cells[6].value
+    else if (cells[0].value !== null && cells[0].value == cells[3].value
         && cells[0].value == cells[6].value) winner = cells[0].value
     else if (cells[1].value !== null && cells[1].value == cells[4].value
         && cells[1].value == cells[7].value) winner = cells[1].value
@@ -53,26 +54,29 @@ function checkWinner() {
         && cells[0].value == cells[8].value) winner = cells[0].value
     else if (cells[2].value !== null && cells[2].value == cells[4].value
         && cells[2].value == cells[6].value) winner = cells[2].value
-    if (winner != null) {
+    if (winner) {
         playing = false
-        gameStatus.innerText = `Game End - Winner : ${player}`
         resetBtn.classList.add('show')
-        resetBtn.addEventListener('click', restart)
+        statusGame.innerText = `Winner ${winner}`
+        resetBtn.addEventListener('click', resetGame)
     } else if (cells[0].value !== null && cells[1].value !== null
         && cells[2].value !== null && cells[3].value !== null && cells[4].value !== null
         && cells[5].value !== null && cells[6].value !== null && cells[7].value !== null
         && cells[8].value !== null
     ) {
         playing = false
-        gameStatus.innerText = `Game End - without Winner`
         resetBtn.classList.add('show')
-        resetBtn.addEventListener('click', restart)
+        statusGame.innerText = "Without winner"
+        resetBtn.addEventListener('click', resetGame)
     }
+
 }
 
-function restart() {
+function resetGame() {
     playing = true
+    resetBtn.classList.remove('show')
     player = player == 'O' ? 'X' : 'O'
-    gameStatus.innerText = `${player}`
+    statusGame.innerText = player
     cells.forEach(item => item.reset())
 }
+

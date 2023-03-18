@@ -47,25 +47,24 @@ body {
 .game__status {
     background-color: green;
     height: 100%;
-    min-width: 15rem;
+    width: 24rem;
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 1rem;
     color: white;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .game__status span {
-    font-size: 2rem;
+    font-size: 1.2rem;
     color: dodgerblue;
     background-color: white;
     padding: 0.2rem;
     border-radius: 1rem;
 }
-
-
 
 
 .wrapper {
